@@ -1,13 +1,17 @@
 package unit;
 
 import org.cbioportal.cbio_engine.CBioEngine;
-import org.junit.Test;
+import org.cbioportal.cbio_engine.domain.ClinicalRecordRepository;
+import org.cbioportal.cbio_engine.domain.GenomicRecordRepository;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.cbioportal.cbio_engine.service.CsvService;
 
@@ -23,6 +27,30 @@ public class BasicUnitTest {
 
     @Autowired
     private CsvService csvService;
+
+    @Autowired
+    private GenomicRecordRepository genomicRecordRepository;
+
+    @Autowired
+    private ClinicalRecordRepository clinicalRecordRepository;
+
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {}
+
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {}
+
+    @Before
+    public void setUp() throws Exception {
+        clinicalRecordRepository.deleteAll();
+        genomicRecordRepository.deleteAll();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        clinicalRecordRepository.deleteAll();
+        genomicRecordRepository.deleteAll();
+    }
 
     @Test
     public void hellowWorld(){
@@ -42,6 +70,10 @@ public class BasicUnitTest {
 
         // import it.
         csvService.importPatientTcga(path + "/src/main/resources/data/data_bcr_clinical_data.csv");
+
+        // assert we have more than 3000.
+        Long count = clinicalRecordRepository.count();
+        assertTrue((count > 2000L));
 
     }
 
