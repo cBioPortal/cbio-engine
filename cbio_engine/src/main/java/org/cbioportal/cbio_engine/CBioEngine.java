@@ -40,7 +40,7 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
  * @author Benjamin Gross
  */
 @SpringBootApplication // shorthand for @Configuration, @EnableAutoConfiguration, @ComponentScan
-public class cBioEngine extends SpringBootServletInitializer
+public class CBioEngine extends SpringBootServletInitializer
 {
     public static void main(String[] args)
     {
