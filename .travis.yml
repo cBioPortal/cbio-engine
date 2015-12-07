@@ -1,0 +1,26 @@
+sudo: false
+language: java
+jdk: oraclejdk9
+
+cache:
+    directories:
+        - $HOME/.m2
+        - $HOME/maven
+
+env:
+    - MAVEN_VERSION=3.3.3
+
+install:
+    - mkdir -p ~/maven
+    - |
+        test -d ~/maven/$MAVEN_VERSION/bin || { \
+            find ~/maven -mindepth 1 -delete && \
+            mkdir -p ~/maven/$MAVEN_VERSION && \
+            wget -O - http://www.eu.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | \
+                tar -C ~/maven/$MAVEN_VERSION --strip-components=1 -xzf -; }
+before_script:
+    - mkdir -p ~/.m2
+    - cp .travis/settings.xml ~/.m2
+
+script:
+    - ~/maven/$MAVEN_VERSION/bin/mvn test

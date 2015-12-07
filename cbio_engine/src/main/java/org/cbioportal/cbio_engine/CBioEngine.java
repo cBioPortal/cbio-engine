@@ -44,6 +44,6 @@ public class CBioEngine extends SpringBootServletInitializer
 {
     public static void main(String[] args)
     {
-        SpringApplication.run(cBioEngine.class, args);
+        SpringApplication.run(CBioEngine.class, args);
     }
 }

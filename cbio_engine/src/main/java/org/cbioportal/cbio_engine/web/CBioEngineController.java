@@ -1,19 +1,4 @@
 /*
- * Copyright (c) 2015 Memorial Sloan-Kettering Cancer Center.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS
- * FOR A PARTICULAR PURPOSE. The software and documentation provided hereunder
- * is on an "as is" basis, and Memorial Sloan-Kettering Cancer Center has no
- * obligations to provide maintenance, support, updates, enhancements or
- * modifications. In no event shall Memorial Sloan-Kettering Cancer Center be
- * liable to any party for direct, indirect, special, incidental or
- * consequential damages, including lost profits, arising out of the use of this
- * software and its documentation, even if Memorial Sloan-Kettering Cancer
- * Center has been advised of the possibility of such damage.
- */
-
-/*
  * This file is part of cBioPortal.
  *
  * cBioPortal is free software: you can redistribute it and/or modify
@@ -33,7 +18,7 @@
 package org.cbioportal.cbio_engine.web;
 
 import org.cbioportal.cbio_engine.domain.*;
-import org.cbioportal.cbio_enginene.service.*;
+import org.cbioportal.cbio_engine.service.*;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,18 +30,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RequestMapping(value = "/cbio_engine/")
 public class CBioEngineController
 {
-    private final CBioEngineService cBioEngineService;
-
     @Autowired
-    public CBioEngineController(CBioEngineService cBioEngineService)
-    {
-        this.cBioEngineService = cBioEngineService;
-    }
+    public DataAccessService dataAccessService;
     
     @RequestMapping(value = "/clinical/sample/{sampleId}", method = RequestMethod.GET)
     public ClinicalRecord getSampleClinical(@PathVariable String sampleId)
     {
-        ClinicalRecord sampleRecord = cBioEngineService.getClinicalRecordBySampleId(sampleId);
+        ClinicalRecord sampleRecord = dataAccessService.getClinicalRecordBySampleId(sampleId);
 
         return sampleRecord;
     }
