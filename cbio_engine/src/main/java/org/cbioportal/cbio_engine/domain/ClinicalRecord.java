@@ -30,20 +30,61 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.cbioportal.cbio_engine;
+package org.cbioportal.cbio_engine.domain;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-/**
- * @author Benjamin Gross
- */
-@SpringBootApplication // shorthand for @Configuration, @EnableAutoConfiguration, @ComponentScan
-public class cBioEngine extends SpringBootServletInitializer
+import java.util.*;
+
+@Document(collection = "clinical")
+public class ClinicalRecord
 {
-    public static void main(String[] args)
+    @Id
+    private String sampleId;
+    private String patientId;
+    private String cancerId;
+    private Map<String, String> attributes;
+
+    /**
+     * @author Benjamin Gross
+     */
+    public ClinicalRecord(String sampleId, String patientId, String cancerId)
     {
-        SpringApplication.run(cBioEngine.class, args);
+        this.sampleId = sampleId;
+        this.patientId = patientId;
+        this.cancerId = cancerId;
+        this.attributes = new HashMap<String, String>();
+    }
+
+    public String getSampleId()
+    {
+        return sampleId;
+    }
+
+    public String getPatientId()
+    {
+        return patientId;
+    }
+
+    public String getCancerId()
+    {
+        return cancerId;
+    }
+
+    public Map<String, String> getAttributes()
+    {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, String> attributes)
+    {
+        this.attributes = attributes;
+    }
+
+    @Override
+    public String toString()
+    {
+        return sampleId;
     }
 }

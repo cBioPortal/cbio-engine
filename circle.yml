@@ -1,0 +1,16 @@
+# prepare the machine.
+machine:
+
+  # language.
+  java:
+    version: oraclejdk8
+
+  # services.
+  services:
+    - mongodb
+
+# setup the database.
+test:
+  post:
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+    - find . -type f -regex ".*/target/surefire-reports/.*xml" exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;

@@ -30,20 +30,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.cbioportal.cbio_engine;
+package org.cbioportal.cbio_engine.domain;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  * @author Benjamin Gross
  */
-@SpringBootApplication // shorthand for @Configuration, @EnableAutoConfiguration, @ComponentScan
-public class cBioEngine extends SpringBootServletInitializer
-{
-    public static void main(String[] args)
-    {
-        SpringApplication.run(cBioEngine.class, args);
-    }
-}
+public interface ClinicalRecordRepository extends MongoRepository<ClinicalRecord, String> {}
