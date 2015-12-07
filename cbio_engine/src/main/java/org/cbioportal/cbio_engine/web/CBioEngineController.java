@@ -14,7 +14,7 @@
  */
 
 /*
- * This file is part of cBioPortal Genome Nexus.
+ * This file is part of cBioPortal.
  *
  * cBioPortal is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -30,21 +30,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.cbioportal.cbio_engine;
+package org.cbioportal.cbio_engine.web;
 
+import org.cbioportal.cbio_engine.domain.*;
+import org.cbioportal.cbio_enginene.service.*;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Benjamin Gross
  */
-@SpringBootApplication // shorthand for @Configuration, @EnableAutoConfiguration, @ComponentScan
-public class cBioEngine extends SpringBootServletInitializer
+@RestController // shorthand for @Controller, @ResponseBody
+@RequestMapping(value = "/cbio_engine/")
+public class CBioEngineController
 {
-    public static void main(String[] args)
+    private final CBioEngineService cBioEngineService;
+
+    @Autowired
+    public CBioEngineController(CBioEngineService cBioEngineService)
     {
-        SpringApplication.run(cBioEngine.class, args);
+        this.cBioEngineService = cBioEngineService;
+    }
+    
+    @RequestMapping(value = "/clinical/sample/{sampleId}", method = RequestMethod.GET)
+    public ClinicalRecord getSampleClinical(@PathVariable String sampleId)
+    {
+        ClinicalRecord sampleRecord = cBioEngineService.getClinicalRecordBySampleId(sampleId);
+
+        return sampleRecord;
     }
 }
