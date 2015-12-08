@@ -17,6 +17,10 @@ import org.cbioportal.cbio_engine.service.CsvService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by jlindsay on 12/7/15.
@@ -61,15 +65,58 @@ public class BasicUnitTest {
     public void csvLoader(){
 
         // get the path.
-        String path = null;
-        try {
-            path = new File(".").getCanonicalPath();
-        } catch (IOException e) {
-            e.printStackTrace();
+        String path = "/Users/jlindsay/Documents/cbiostorage/tcga/";
+
+        // prefix to import.
+        List<String> prefix = new ArrayList<>(Arrays.asList(
+                "acc",
+                "blca",
+                "brca",
+                "cesc",
+                "chol",
+                "coadread",
+                "dlbc",
+                "esca",
+                "gbm",
+                "hnsc",
+                "kich",
+                "kirc",
+                "kirp",
+                "laml",
+                "lgg",
+                "lihc",
+                "luad",
+                "lusc",
+                "meso",
+                "ov",
+                "paad",
+                "pcpg",
+                "prad",
+                "sarc",
+                "skcm",
+                "stad",
+                "tgct",
+                "thca",
+                "thym",
+                "ucec",
+                "ucs",
+                "uvm"));
+
+        // list of paths to import.
+        List<HashMap<String, String>> paths = new ArrayList<>();
+        for(String p: prefix){
+
+            // build dict.
+            HashMap<String, String> tmp = new HashMap<>();
+            tmp.put("prefix", p);
+            tmp.put("path", path + p + "/tcga/data_bcr_clinical_data.txt");
+
+            // add to list.
+            paths.add(tmp);
         }
 
         // import it.
-        csvService.importPatientTcga(path + "/src/main/resources/data/data_bcr_clinical_data.csv");
+        csvService.importPatientTcga(paths);
 
         // assert we have more than 3000.
         Long count = clinicalRecordRepository.count();
