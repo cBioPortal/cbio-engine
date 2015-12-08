@@ -14,6 +14,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.Fields;
 import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -45,7 +48,7 @@ public class MongoTests {
         attributes.add(new ClinicalTuple("OS_STATUS", "LIVING"));
         attributes.add(new ClinicalTuple("OS_MONTHS", 32));
         attributes.add(new ClinicalTuple("DFS_STATUS", "REMISSION"));
-        attributes.add(new ClinicalTuple("DFS_MONTHS", 32));
+        attributes.add(new ClinicalTuple("DFS_MONTHS", 30));
 
         // save the clinical record.        
 		mongoTemplate.insert(cr, "clinical");
@@ -84,6 +87,23 @@ public class MongoTests {
 		Query ageQuery = new BasicQuery("{\"attributes\": {\"$elemMatch\": {\"key\": \"AGE\", \"value\": {\"$gte\": 40}}}}");
 		List<Object> result = mongoTemplate.find(ageQuery, Object.class, "clinical");
 		
+		assertEquals(1, result.size());		
+	}
+	
+	@Test
+	public void testAggregationQuery() {
+		
+		Aggregation agg = Aggregation.newAggregation(
+				Aggregation.match(Criteria.where("attributes").elemMatch(Criteria.where("key").is("AGE").and("value").gte(40))),
+				Aggregation.project("attributes"),
+				Aggregation.unwind("attributes"),
+				Aggregation.match(Criteria.where("attributes.key").is("OS_MONTHS")),
+				Aggregation.match(Criteria.where("attributes.value").gte(0)),
+				Aggregation.project(Fields.from(Fields.field("value", "attributes.value")))
+		);
+	
+		AggregationResults<Object> aggro = mongoTemplate.aggregate(agg, "clinical", Object.class);
+		List<Object> result = aggro.getMappedResults();
 		assertEquals(1, result.size());		
 	}
 }
