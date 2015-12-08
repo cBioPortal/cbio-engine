@@ -4,6 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public class BasicQueryFilter implements QueryFilter {
 
+	public BasicQueryFilter(QueryVariable variable, JsonNode value) {
+		super();
+		this.variable = variable;
+		this.value = value;
+	}
+
 	private QueryVariable variable;
 	
 	private JsonNode value;

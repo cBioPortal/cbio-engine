@@ -7,6 +7,7 @@ import java.util.List;
 import org.cbioportal.cbio_engine.CBioEngine;
 import org.cbioportal.cbio_engine.domain.ClinicalRecord;
 import org.cbioportal.cbio_engine.domain.ClinicalTuple;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,28 +35,31 @@ public class MongoTests {
 		String cancerId = "cancer";
 		String cancerType = "carcinoma";
 		
-        ClinicalRecord cr = new ClinicalRecord(sample_id, patient_id, cancer_id, cancer_type);
+        ClinicalRecord cr = new ClinicalRecord(sampleId, patientId, cancerId, cancerType);
         List<ClinicalTuple> attributes = cr.getAttributes();
-        attributes.add(new ClinicalTuple("AGE", age));
-        attributes.add(new ClinicalTuple("OS_STATUS", os_status));
-        attributes.add(new ClinicalTuple("OS_MONTHS", os_months));
-        attributes.add(new ClinicalTuple("DFS_STATUS", dfs_status));
-        attributes.add(new ClinicalTuple("DFS_MONTHS", dfs_months));
+        attributes.add(new ClinicalTuple("AGE", 50));
+        attributes.add(new ClinicalTuple("OS_STATUS", "LIVING"));
+        attributes.add(new ClinicalTuple("OS_MONTHS", 32));
+        attributes.add(new ClinicalTuple("DFS_STATUS", "REMISSION"));
+        attributes.add(new ClinicalTuple("DFS_MONTHS", 32));
 
-        // save the clinical record.
-        records.add(cr);
-        
-		mongoTemplate.insert(objectToSave);
+        // save the clinical record.        
+		mongoTemplate.insert(cr, "clinical");
+	}
+	
+	@After
+	public void tearDown() {
+		
 	}
 
 	@Test
 	public void testBasicQuery() {
 		
-		Criteria ageFilter = Criteria.where("age").gt(50);
+		Criteria ageFilter = Criteria.where("age").gt(10);
 		Query ageQuery = Query.query(ageFilter);
 		List<ObjectNode> result = mongoTemplate.find(ageQuery, ObjectNode.class, "clinical");
 		
-		assertEquals(50, result.size());
+		assertEquals(1, result.size());
 	}
 
 }

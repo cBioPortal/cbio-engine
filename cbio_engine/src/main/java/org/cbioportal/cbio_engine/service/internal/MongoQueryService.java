@@ -51,6 +51,7 @@ public class MongoQueryService implements QueryService {
 	@Override
 	public Query setQueryPartition(Query input, List<QueryPartition> partitions) {
 		// TODO Auto-generated method stub
+				
 		return null;
 	}
 
