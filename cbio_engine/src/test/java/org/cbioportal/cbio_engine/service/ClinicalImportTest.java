@@ -56,7 +56,7 @@ public class ClinicalImportTest {
         assertEquals(1, 1);
     }
 
-    @Ignore
+    @Test
     public void csvLoader() throws IOException {
 
         // get the path.

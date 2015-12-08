@@ -33,9 +33,8 @@ public class CBioEngineController
     @Autowired
     public DataAccessService dataAccessService;
     
-    @RequestMapping(value = "/clinical/sample/{sampleId}", method = RequestMethod.GET)
-    public ClinicalRecord getSampleClinical(@PathVariable String sampleId)
-    {
+    @RequestMapping(value = "/query", method = RequestMethod.GET)
+    public ClinicalRecord getSampleClinical(@PathVariable String sampleId) {
         ClinicalRecord sampleRecord = dataAccessService.getClinicalRecordBySampleId(sampleId);
 
         return sampleRecord;
