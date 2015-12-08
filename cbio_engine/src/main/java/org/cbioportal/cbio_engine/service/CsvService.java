@@ -63,10 +63,10 @@ public class CsvService {
                 String patient_id;
                 String sample_id;
                 String os_status;
-                String os_months;
+                Float os_months;
                 String dfs_status;
-                String dfs_months;
-                String age;
+                Float dfs_months;
+                Integer age;
                 String cancer_id;
                 String cancer_type;
 
@@ -95,13 +95,28 @@ public class CsvService {
                     // parse out attribes.
                     patient_id = values[columnLu.get("PATIENT_ID")];
                     sample_id = values[columnLu.get("SAMPLE_ID")];
-                    age = values[columnLu.get("AGE")];
+                    try {
+                        age = Integer.parseInt(values[columnLu.get("AGE")]);
+                    } catch (NumberFormatException e) {
+                        age = null;
+                    }
                     cancer_type = prefix;
                     cancer_id = prefix + "_tcga";
                     os_status = values[columnLu.get("OS_STATUS")];
-                    os_months = values[columnLu.get("OS_MONTHS")];
+                    try {
+                        os_months = Float.parseFloat(values[columnLu.get("OS_MONTHS")]);
+                    } catch (NumberFormatException e){
+                        os_months = null;
+                    }
+
                     dfs_status = values[columnLu.get("DFS_STATUS")];
-                    dfs_months = values[columnLu.get("DFS_MONTHS")];
+
+                    try {
+                        dfs_months = Float.parseFloat(values[columnLu.get("DFS_MONTHS")]);
+                    } catch (NumberFormatException e) {
+                        dfs_months = null;
+                    }
+
 
                     // create the clinical record.
                     ClinicalRecord cr = new ClinicalRecord(sample_id, patient_id, cancer_id, cancer_type);
@@ -134,8 +149,6 @@ public class CsvService {
             clinicalRecordRepository.save(records);
 
         }
-
-
 
         // save all patients in one go.
         log.info("importing paitents from file...done");
