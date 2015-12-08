@@ -30,6 +30,8 @@ public class MongoTests {
 	@Before
 	public void setUp() {
 		
+		mongoTemplate.dropCollection("clinical");
+		
 		String sampleId = "sample";
 		String patientId = "patient";
 		String cancerId = "cancer";
@@ -55,9 +57,10 @@ public class MongoTests {
 	@Test
 	public void testBasicQuery() {
 		
-		Criteria ageFilter = Criteria.where("age").gt(10);
+		Criteria attributeFilter = Criteria.where("key").is("AGE").and("value").gte(40);
+		Criteria ageFilter = Criteria.where("attributes").elemMatch(attributeFilter);
 		Query ageQuery = Query.query(ageFilter);
-		List<ObjectNode> result = mongoTemplate.find(ageQuery, ObjectNode.class, "clinical");
+		List<Object> result = mongoTemplate.find(ageQuery, Object.class, "clinical");
 		
 		assertEquals(1, result.size());
 	}
