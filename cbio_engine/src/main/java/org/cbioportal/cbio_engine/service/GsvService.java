@@ -94,10 +94,14 @@ public class GsvService {
                     variant_classification = values[columnLu.get("Variant_Classification")];
 
                     // create genomic records
-                    GenomicRecord gr = new GenomicRecord(sample_id, hugo_symbol, "VARIANT", variant);
-                    records.add(gr);
-                    gr = new GenomicRecord(sample_id, hugo_symbol, "VARIANT_CLASSIFICATION", variant_classification);
-                    records.add(gr);
+                    if (variant != null && variant.length() > 0) {
+                        GenomicRecord gr = new GenomicRecord(sample_id, hugo_symbol, "VARIANT", variant);
+                        records.add(gr);
+                    }
+                    if (variant != null && variant.length() > 0) {
+                        GenomicRecord gr = new GenomicRecord(sample_id, hugo_symbol, "VARIANT_CLASSIFICATION", variant_classification);
+                        records.add(gr);
+                    }
                     
                     i++;
                 }
