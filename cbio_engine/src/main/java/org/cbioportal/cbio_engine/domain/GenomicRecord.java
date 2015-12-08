@@ -42,17 +42,17 @@ public class GenomicRecord
 {
     @Id
     private String sampleId;
-    private String geneId;
+    private String hugoSymbol;
     private String type;
     private String value;
 
     /**
      * @author Benjamin Gross
      */
-    public GenomicRecord(String sampleId, String geneId, String type, String value)
+    public GenomicRecord(String sampleId, String hugoSymbol, String type, String value)
     {
         this.sampleId = sampleId;
-        this.geneId = geneId;
+        this.hugoSymbol = hugoSymbol;
         this.type = type;
         this.value = value;
     }
@@ -62,9 +62,9 @@ public class GenomicRecord
         return sampleId;
     }
 
-    public String getGeneId()
+    public String getHugoSymbol()
     {
-        return geneId;
+        return hugoSymbol;
     }
 
     public String getType()
