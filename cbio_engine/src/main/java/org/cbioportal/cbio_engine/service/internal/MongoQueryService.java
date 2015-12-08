@@ -9,6 +9,7 @@ import org.cbioportal.cbio_engine.query.QueryPartition;
 import org.cbioportal.cbio_engine.service.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,18 @@ public class MongoQueryService implements QueryService {
 						
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public List<Object> execute(String query) {
+
+		// create basic query.
+		BasicQuery basic = new BasicQuery(query);
+
+		// execute against clinical.
+		List<Object> result = mongoTemplate.find(basic, Object.class, "clinical");
+
+		// return results.
+		return result;
 	}
 
 	@Override

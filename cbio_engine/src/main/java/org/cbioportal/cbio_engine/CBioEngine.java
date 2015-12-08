@@ -37,10 +37,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 
 /**
  * @author Benjamin Gross
@@ -53,5 +55,16 @@ public class CBioEngine {
 
         // run the application.
         ConfigurableApplicationContext ctx = SpringApplication.run(CBioEngine.class, args);
+
+        // hack to add data to system.
+        ProductionHack myBean = (ProductionHack)ctx.getBean("ProductionHack");
+        try {
+            myBean.loadData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    @Bean(name = "ProductionHack")
+    public ProductionHack getProductionHack() { return new ProductionHack(); }
 }

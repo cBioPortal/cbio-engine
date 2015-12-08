@@ -55,7 +55,7 @@ public class QueryApiUnitTest {
 
         // create object.
         CBioQuery cq = new CBioQuery();
-        cq.setClinical_filter("hey there");
+        cq.setClinical_filter("{\"attributes\": {\"$elemMatch\": {\"key\": \"AGE\", \"value\": {\"$gte\": 40}}}}");
         cq.setGenomic_filter("pizza is good");
         cq.setTransform("trans1");
 

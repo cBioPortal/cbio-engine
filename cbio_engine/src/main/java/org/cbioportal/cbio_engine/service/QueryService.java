@@ -19,4 +19,6 @@ public interface QueryService {
 	public Query setQueryTransform(Query input);
 
 	public List<ObjectNode> execute(Query query);
+
+	public List<Object> execute(String query);
 }
