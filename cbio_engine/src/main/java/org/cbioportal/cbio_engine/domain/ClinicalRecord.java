@@ -44,17 +44,20 @@ public class ClinicalRecord
     private String sampleId;
     private String patientId;
     private String cancerId;
-    private Map<String, String> attributes;
+    private String cancerType;
+
+    private List<ClinicalTuple> attributes;
 
     /**
      * @author Benjamin Gross
      */
-    public ClinicalRecord(String sampleId, String patientId, String cancerId)
+    public ClinicalRecord(String sampleId, String patientId, String cancerId, String cancerType)
     {
         this.sampleId = sampleId;
         this.patientId = patientId;
         this.cancerId = cancerId;
-        this.attributes = new HashMap<String, String>();
+        this.cancerType = cancerType;
+        this.attributes = new ArrayList<>();
     }
 
     public String getSampleId()
@@ -72,14 +75,34 @@ public class ClinicalRecord
         return cancerId;
     }
 
-    public Map<String, String> getAttributes()
+    public List<ClinicalTuple> getAttributes()
     {
         return attributes;
     }
 
-    public void setAttributes(Map<String, String> attributes)
+    public void setAttributes(List<ClinicalTuple> attributes)
     {
         this.attributes = attributes;
+    }
+
+    public void setSampleId(String sampleId) {
+        this.sampleId = sampleId;
+    }
+
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
+    }
+
+    public void setCancerId(String cancerId) {
+        this.cancerId = cancerId;
+    }
+
+    public String getCancerType() {
+        return cancerType;
+    }
+
+    public void setCancerType(String cancerType) {
+        this.cancerType = cancerType;
     }
 
     @Override

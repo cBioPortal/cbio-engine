@@ -33,8 +33,10 @@
 package org.cbioportal.cbio_engine.domain;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 /**
  * @author Benjamin Gross
  */
+@RepositoryRestResource
 public interface ClinicalRecordRepository extends MongoRepository<ClinicalRecord, String> {}
