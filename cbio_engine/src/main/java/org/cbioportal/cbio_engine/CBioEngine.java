@@ -32,20 +32,25 @@
 
 package org.cbioportal.cbio_engine;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @author Benjamin Gross
  */
 @EnableMongoRepositories(basePackages = "org.cbioportal.cbio_engine.domain")
 @SpringBootApplication // shorthand for @Configuration, @EnableAutoConfiguration, @ComponentScan
-public class CBioEngine extends SpringBootServletInitializer
-{
-    public static void main(String[] args)
-    {
-        SpringApplication.run(CBioEngine.class, args);
+public class CBioEngine extends SpringBootServletInitializer {
+    public static void main(String[] args) {
+
+        // run the application.
+        ConfigurableApplicationContext ctx = SpringApplication.run(CBioEngine.class, args);
     }
 }
