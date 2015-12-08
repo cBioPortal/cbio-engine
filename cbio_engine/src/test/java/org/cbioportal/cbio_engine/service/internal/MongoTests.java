@@ -93,6 +93,20 @@ public class MongoTests {
 	@Test
 	public void testAggregationQuery() {
 		
+//      // Adapted from this command line equivalent
+//		db.runCommand(
+//				  {aggregate: "clinical",
+//				   pipeline: [
+//				     { $match: { attributes: {$elemMatch: {key: "OS_MONTHS", value: {$ne: null} } }}},
+//				     { $project : { "attributes" : 1 }},
+//				     { $unwind : "$attributes" },
+//				     { $match: { "attributes.key" : "OS_MONTHS" }},
+//				     { $match: { "attributes.value" : { $gte : 0 }}},
+//				     { $project : { "value" : "$attributes.value"}},
+//				     { $group : { _id : "$value", count : { $sum : 1 }}},
+//				     { $sort : { "_id" : -1 }}
+//				   ]});
+//		
 		Aggregation agg = Aggregation.newAggregation(
 				Aggregation.match(Criteria.where("attributes").elemMatch(Criteria.where("key").is("AGE").and("value").gte(40))),
 				Aggregation.project("attributes"),
