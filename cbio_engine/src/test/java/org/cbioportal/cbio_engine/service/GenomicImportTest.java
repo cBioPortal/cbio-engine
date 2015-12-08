@@ -1,4 +1,4 @@
-package unit;
+package org.cbioportal.cbio_engine.service;
 
 import org.cbioportal.cbio_engine.CBioEngine;
 import org.cbioportal.cbio_engine.domain.ClinicalRecordRepository;
@@ -23,20 +23,17 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by jlindsay on 12/7/15.
+ * @author Benjamin Gross
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes={CBioEngine.class})
-public class BasicUnitTest {
+public class GenomicImportTest {
 
     @Autowired
-    private CsvService csvService;
+    private GsvService gsvService;
 
     @Autowired
     private GenomicRecordRepository genomicRecordRepository;
-
-    @Autowired
-    private ClinicalRecordRepository clinicalRecordRepository;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {}
@@ -46,13 +43,11 @@ public class BasicUnitTest {
 
     @Before
     public void setUp() throws Exception {
-        clinicalRecordRepository.deleteAll();
         genomicRecordRepository.deleteAll();
     }
 
     @After
     public void tearDown() throws Exception {
-        clinicalRecordRepository.deleteAll();
         genomicRecordRepository.deleteAll();
     }
 
@@ -109,17 +104,17 @@ public class BasicUnitTest {
             // build dict.
             HashMap<String, String> tmp = new HashMap<>();
             tmp.put("prefix", p);
-            tmp.put("path", path + p + "/tcga/data_bcr_clinical_data.txt");
+            tmp.put("path", path + p + "/tcga/data_mutations_extended.txt");
 
             // add to list.
             paths.add(tmp);
         }
 
         // import it.
-        csvService.importPatientTcga(paths);
+        gsvService.importGenomicTcga(paths);
 
         // assert we have more than 3000.
-        Long count = clinicalRecordRepository.count();
+        Long count = genomicRecordRepository.count();
         assertTrue((count > 2000L));
 
     }
