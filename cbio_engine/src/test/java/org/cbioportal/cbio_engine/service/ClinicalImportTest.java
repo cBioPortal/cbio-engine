@@ -1,4 +1,4 @@
-package unit;
+package org.cbioportal.cbio_engine.service;
 
 import org.cbioportal.cbio_engine.CBioEngine;
 import org.cbioportal.cbio_engine.domain.ClinicalRecordRepository;
@@ -27,13 +27,10 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes={CBioEngine.class})
-public class BasicUnitTest {
+public class ClinicalImportTest {
 
     @Autowired
     private CsvService csvService;
-
-    @Autowired
-    private GenomicRecordRepository genomicRecordRepository;
 
     @Autowired
     private ClinicalRecordRepository clinicalRecordRepository;
@@ -47,13 +44,11 @@ public class BasicUnitTest {
     @Before
     public void setUp() throws Exception {
         clinicalRecordRepository.deleteAll();
-        genomicRecordRepository.deleteAll();
     }
 
     @After
     public void tearDown() throws Exception {
         clinicalRecordRepository.deleteAll();
-        genomicRecordRepository.deleteAll();
     }
 
     @Test
