@@ -95,6 +95,12 @@ public class CsvService {
                     // parse out attribes.
                     patient_id = values[columnLu.get("PATIENT_ID")];
                     sample_id = values[columnLu.get("SAMPLE_ID")];
+                    if (! "".equals(sample_id)) {
+                    	i++;
+                    	continue;
+                    } else {
+                    	sample_id = patient_id + "-01";
+                    }
                     try {
                         age = Integer.parseInt(values[columnLu.get("AGE")]);
                     } catch (NumberFormatException e) {
