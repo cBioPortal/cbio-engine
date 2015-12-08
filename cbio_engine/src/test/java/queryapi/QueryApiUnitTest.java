@@ -17,6 +17,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -62,9 +64,12 @@ public class QueryApiUnitTest {
                 post(uriPrefix + "cbioquery/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(gson.toJson(cq, CBioQuery.class)))
-                //.andDo(print())
+                .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
+
+        // parse results.
+        //gson.fromJson(result.getResponse(), ArrayList.class)
     }
 
 
