@@ -11,6 +11,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -24,10 +26,15 @@ import org.springframework.data.mongodb.core.query.TextQuery;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.mongodb.CommandResult;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes={CBioEngine.class})
 public class MongoTests {
+	
+    // basic logger.
+    Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
+
 
 	@Autowired
 	MongoTemplate mongoTemplate;
@@ -119,5 +126,25 @@ public class MongoTests {
 		AggregationResults<Object> aggro = mongoTemplate.aggregate(agg, "clinical", Object.class);
 		List<Object> result = aggro.getMappedResults();
 		assertEquals(1, result.size());		
+	}
+	
+	@Test
+	public void testAggregationQueryDirect() {
+		
+		String command = 
+		   "{aggregate: \"clinical\"," +
+				      "pipeline: [" +
+				        "{ $match: { attributes: {$elemMatch: {key: \"OS_MONTHS\", value: {$ne: null} } }}}," +
+				        "{ $project : { \"attributes\" : 1 }}," +
+				        "{ $unwind : \"$attributes\" }," +
+				        "{ $match: { \"attributes.key\" : \"OS_MONTHS\" }}," +
+				        "{ $match: { \"attributes.value\" : { $gte : 0 }}}," +
+				        "{ $project : { \"value\" : \"$attributes.value\"}}," +
+				        "{ $group : { _id : \"$value\", count : { $sum : 1 }}}," +
+				        "{ $sort : { \"_id\" : -1 }}" +
+				      "]}";
+				
+		CommandResult result = mongoTemplate.executeCommand(command);
+		log.info("Result: " + result);
 	}
 }
