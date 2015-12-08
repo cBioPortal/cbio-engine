@@ -3,3 +3,4 @@
 *.iml
 .idea/*
 cbio_engine/target
+cbio_engine/src/main/resources/data
