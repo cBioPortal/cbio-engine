@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.*;
 
 /**
  * Created by Benjamin Gross
@@ -18,6 +19,8 @@ public class GsvService {
 
     // basic logger.
     Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
+
+    Pattern samplePattern = Pattern.compile("^(TCGA-\\w\\w-\\w\\w\\w\\w-\\d\\d).*$");
 
     @Autowired
     private GenomicRecordRepository genomicRecordRepository;
@@ -89,6 +92,9 @@ public class GsvService {
 
                     // parse out attribes.
                     sample_id = values[columnLu.get("Tumor_Sample_Barcode")];
+                    Matcher matcher = samplePattern.matcher(sample_id);
+                    sample_id = (matcher.find()) ? matcher.group(1) : sample_id;
+                         
                     hugo_symbol = values[columnLu.get("Hugo_Symbol")];
                     variant = values[columnLu.get("HGVSp_Short")];
                     variant_classification = values[columnLu.get("Variant_Classification")];
