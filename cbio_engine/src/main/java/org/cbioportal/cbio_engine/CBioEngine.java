@@ -46,8 +46,9 @@ import javax.annotation.PostConstruct;
  * @author Benjamin Gross
  */
 @EnableMongoRepositories(basePackages = "org.cbioportal.cbio_engine.domain")
-@SpringBootApplication // shorthand for @Configuration, @EnableAutoConfiguration, @ComponentScan
-public class CBioEngine extends SpringBootServletInitializer {
+@SpringBootApplication
+public class CBioEngine {
+
     public static void main(String[] args) {
 
         // run the application.

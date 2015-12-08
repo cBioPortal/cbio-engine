@@ -72,6 +72,9 @@ public class GsvService {
                 Set<String> keys = new HashSet<String>(Arrays.asList(
                         "Tumor_Sample_Barcode", "Hugo_Symbol", "HGVSp_Short", "Variant_Classification"));
 
+                // skip header.
+                reader.readLine();
+
                 // parse header and build lookup.
                 HashMap<String, Integer> columnLu = new HashMap<>();
                 values = reader.readLine().split("\\t", -1);
@@ -103,12 +106,18 @@ public class GsvService {
                     if (variant != null && variant.length() > 0) {
                         GenomicRecord gr = new GenomicRecord(sample_id, hugo_symbol, "VARIANT", variant);
                         records.add(gr);
+
+                        //log.info(gr.getSampleId() + ", " + gr.getHugoSymbol());
                     }
                     if (variant != null && variant.length() > 0) {
                         GenomicRecord gr = new GenomicRecord(sample_id, hugo_symbol, "VARIANT_CLASSIFICATION", variant_classification);
                         records.add(gr);
+
+                        //log.info(gr.getSampleId() + ", " + gr.getHugoSymbol());
                     }
-                    
+
+
+
                     i++;
                 }
             } catch (FileNotFoundException e) {
