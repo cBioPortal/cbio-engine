@@ -62,10 +62,10 @@ public class BasicUnitTest {
     }
 
     @Ignore
-    public void csvLoader(){
+    public void csvLoader() throws IOException {
 
         // get the path.
-        String path = "/Users/jlindsay/Documents/cbiostorage/tcga/";
+        String path = new File(".").getCanonicalPath() + "/src/main/resources/data/";
 
         // prefix to import.
         List<String> prefix = new ArrayList<>(Arrays.asList(
